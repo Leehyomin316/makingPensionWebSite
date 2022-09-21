@@ -16,14 +16,21 @@
 		/> <property name="username" value="book" /> <property name="password" value="book" 
 		/> </bean> -->
 
+	<!-- <bean id="dataSource" -->
+	<!-- class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource"> -->
+	<!-- <property name="driverClassName" -->
+	<!-- value="com.mysql.jdbc.Driver" /> -->
+	<!-- <property name="url" value="jdbc:mysql://localhost:3306/test" /> -->
+	<!-- <property name="username" value="test" /> -->
+	<!-- <property name="password" value="test" /> -->
+	<!-- </bean> -->
 	<bean id="dataSource"
-		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName"
-			value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url"
-			value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
-		<property name="username" value="book" />
-		<property name="password" value="book" />
+		class="org.apache.ibatis.datasource.pooled.PooledDataSource">
+		<property name="driver"
+			value="org.mariadb.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/test" />
+		<property name="username" value="test" />
+		<property name="password" value="test" />
 	</bean>
 
 
@@ -31,9 +38,9 @@
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation"
-			value="classpath:mybatis/model/model-config-oracle.xml" />
+			value="classpath:mybatis/model/model-config-mysql.xml" />
 		<property name="mapperLocations"
-			value="classpath:mybatis/mappers/test-oracle.xml" />
+			value="classpath:mybatis/mappers/test-mysql.xml" />
 		<property name="transactionFactory">
 			<bean
 				class="org.mybatis.spring.transaction.SpringManagedTransactionFactory" />
@@ -48,19 +55,23 @@
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	
+
 	<tx:advice id="txAdvice" transaction-manager="txManager">
 		<tx:attributes>
 			<tx:method name="get*" read-only="true" />
-			<tx:method name="insert*" read-only="false" propagation="REQUIRED" rollback-for="Exception" />
-			<tx:method name="update*" read-only="false"	propagation="REQUIRED" rollback-for="Exception" />
-			<tx:method name="delete*" read-only="false"	propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="insert*" read-only="false"
+				propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="update*" read-only="false"
+				propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="delete*" read-only="false"
+				propagation="REQUIRED" rollback-for="Exception" />
 		</tx:attributes>
 	</tx:advice>
-	
+
 	<aop:config>
-    	<aop:pointcut id="txMethod" expression="execution(* com.scci.service..*ServiceImpl.*(..))" />
-    	<aop:advisor advice-ref="txAdvice" pointcut-ref="txMethod" />
+		<aop:pointcut id="txMethod"
+			expression="execution(* com.scci.service..*ServiceImpl.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txMethod" />
 	</aop:config>
 
 	<tx:annotation-driven />

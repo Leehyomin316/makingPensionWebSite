@@ -9,12 +9,8 @@
 </head>
 <body>
 	<ul>
-		<li>${param.id}</li>
-		<li>${param.pwd}</li>
-	</ul>
-	<ul>
 		<c:forEach var="actor" items="${results}">
-			<li>${actor.BOOK_ID} ${actor.BOOK_NM} ${actor.PUBLISHER}</li>
+			<li>${actor.no}</li>
 		</c:forEach>
 	</ul>
 </body>
