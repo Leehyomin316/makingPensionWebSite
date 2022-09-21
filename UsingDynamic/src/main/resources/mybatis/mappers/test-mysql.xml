@@ -2,11 +2,10 @@
 <!DOCTYPE mapper
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.oracle.test">
+<mapper namespace="mapper.mysql.test">
 
-<select id="selectBook" resultType="map">
-	select book_id, book_nm, publisher, price
-	  from book
+<select id="test" resultType="map">
+	select 100 no from dual
 </select>
 
 </mapper>

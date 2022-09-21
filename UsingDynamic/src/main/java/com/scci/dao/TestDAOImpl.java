@@ -17,6 +17,6 @@ public class TestDAOImpl implements TestDAO{
 	@Override
 	public List<Map<String, String>> selectActors(Map<String, String> param) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("mapper.oracle.test.selectBook", param);
+		return sqlSession.selectList("mapper.mysql.test.test", param);
 	}
 }
